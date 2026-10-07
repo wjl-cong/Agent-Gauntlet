@@ -1,0 +1,16 @@
+# W1 基线故障策略（spec 4.1）—— 覆盖焰哨 orchestrator 主链 3 个核心工具 × http_500 / timeout
+# 注入引擎：Backend/src/gauntlet/chaos/faults.py（Task 4）
+# recovery_expectation 仅记录用途，恢复判定由 chaos.recovery（Task 5）负责
+- tool: query_fire_data
+  fault: http_500
+  probability: 0.5
+  recovery_expectation: retry_succeed
+- tool: gis_analyze
+  fault: http_500
+  probability: 0.3
+  recovery_expectation: degrade_or_skip
+- tool: generate_report
+  fault: timeout
+  nth_call: 2
+  delay_s: 30
+  recovery_expectation: degrade_or_retry

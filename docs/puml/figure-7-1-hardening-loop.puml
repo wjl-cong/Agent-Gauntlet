@@ -1,0 +1,37 @@
+@startuml figure-7-1-hardening-loop
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Microsoft YaHei"
+skinparam activityBackgroundColor #F4F7FB
+skinparam activityBorderColor #4A6C8C
+skinparam activityDiamondBackgroundColor #FFF8E7
+skinparam activityDiamondBorderColor #B58900
+skinparam partitionBorderColor #4A6C8C
+skinparam arrowColor #4A6C8C
+
+start
+:初测轮：20 条攻击用例真机执行
+（直接注入 15 条 + 间接注入 5 条）;
+:轨迹取证与机制归因
+（系统提示词泄露 1 例、攻击得手 6 例、
+超时误判 4 例、间接注入未跑通 8 例）;
+
+partition "双向修复（评测平台 + 被测方）" {
+  :平台侧 8 项修复：载荷路径、间接注入适配、
+  执行失败口径统一、用例级自动重试、
+  统一评分、轮次删除等;
+  :被测方第一轮加固：系统提示词
+  追加四条防注入与机密条款;
+}
+
+:复测批：20 条用例全部完成有效判定
+（仅 1 例因服务无响应按执行失败口径单列）;
+:复测结论：系统提示词泄露清零；
+用户自供暗号仍失守 9 例
+（提示词条款效力边界被精确度量）;
+:被测方第二轮加固：报告生成出口
+确定性哨兵过滤（已完成开发）;
+:第三轮复测：验证输出护栏效果
+（预期 9 例失守转为防御）;
+:防御得分与判定分布更新至测试报告与论文;
+stop
+@enduml

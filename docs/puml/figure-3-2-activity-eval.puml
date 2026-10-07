@@ -1,0 +1,34 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam ArrowColor #2F3A45
+title 图 3-2 单用例评测执行活动图
+
+start
+:加载评测用例套件;
+:初始化并发调度与令牌预算;
+while (存在待执行用例?) is (是)
+  :构建用例输入与预期约束;
+  :调用被测对象并采集事件流;
+  if (业务审批挂起?) then (是)
+    :自动恢复执行;
+  else (否)
+  endif
+  :汇聚执行轨迹;
+  if (用例类别?) then (功能用例)
+    :恢复判定;
+  else (攻击用例)
+    :越界判定;
+  endif
+  :生成评测结果并落库;
+  if (令牌预算耗尽?) then (是)
+    :熔断终止本轮执行;
+    stop
+  else (否)
+  endif
+endwhile (否)
+:汇总评测轮次统计;
+stop
+@enduml

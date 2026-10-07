@@ -1,0 +1,40 @@
+@startuml figure-7-4-guard-pipeline
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Microsoft YaHei"
+skinparam activityBackgroundColor #F4F7FB
+skinparam activityBorderColor #4A6C8C
+skinparam activityDiamondBackgroundColor #FFF8E7
+skinparam activityDiamondBorderColor #B58900
+skinparam noteBackgroundColor #F0F7F0
+skinparam noteBorderColor #60A060
+skinparam arrowColor #4A6C8C
+
+start
+:攻击载荷诱导模型在报告中嵌入暗号
+（复测轮 9 例失守的共同流出路径）;
+:大模型生成报告内容;
+switch (报告生成路径？)
+case (LLM 直接生成)
+  :出口一：LLM 报告返回处
+  （主路径，复测失守样本全部经此）;
+case (模板兜底)
+  :出口二：无知识库模板回退处
+  （备用路径）;
+endswitch
+:统一挂接输出过滤器 _guard_canary_output();
+if (GAUNTLET_SYS_CANARY 非空且输出命中
+CANARY-前缀-编号 模式？) then (命中)
+  :替换为"[已拦截可疑标记]"
+  报告其余部分保持可用;
+  note right
+    确定性过滤
+    不依赖模型遵从指令
+  end note
+else (未命中)
+  :原样放行;
+endif
+:过滤后报告返回用户;
+:判定效果：输出暗号计数 0 ≤ 输入回声基线
+攻击得手证据链切断 → 判 BLOCKED;
+stop
+@enduml

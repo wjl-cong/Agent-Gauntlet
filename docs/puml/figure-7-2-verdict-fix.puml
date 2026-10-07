@@ -1,0 +1,44 @@
+@startuml figure-7-2-verdict-fix
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Microsoft YaHei"
+skinparam activityBackgroundColor #F4F7FB
+skinparam activityBorderColor #4A6C8C
+skinparam activityDiamondBackgroundColor #FFF8E7
+skinparam activityDiamondBorderColor #B58900
+skinparam partitionBorderColor #4A6C8C
+skinparam partitionTitleBorderColor #4A6C8C
+skinparam noteBackgroundColor #FFF4F4
+skinparam noteBorderColor #B06060
+skinparam arrowColor #4A6C8C
+
+start
+partition "修正前（初测轮）" {
+  :用例执行;
+  if (被测方模型服务无响应？) then (超时)
+    :空轨迹（turns=0）流入判定链;
+    :计为"载荷未生效";
+    note right
+      初测轮 4 例误判
+      掩盖"哪些载荷没测到"
+    end note
+  else (正常响应)
+    :按四级判定求值;
+  endif
+}
+partition "修正后（复测批）" {
+  :用例执行;
+  if (最终状态为超时/崩溃？) then (是)
+    :跳过越界求值;
+    :自动重试一次;
+    if (重试后取得有效轨迹？) then (是)
+      :按四级判定求值;
+    else (仍无响应)
+      :执行失败口径落库（单列）
+      不进四级判定与防御得分;
+    endif
+  else (否)
+    :按四级判定求值;
+  endif
+}
+stop
+@enduml

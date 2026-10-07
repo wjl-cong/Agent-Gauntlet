@@ -1,0 +1,33 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam ArrowColor #2F3A45
+title 图 5-1 恢复判定流程图
+
+start
+:读取执行轨迹;
+if (任务终态为正常完成?) then (否)
+  :判定为 FAILURE（崩溃或超时）;
+  stop
+else (是)
+endif
+if (轨迹中存在故障注入痕迹?) then (否)
+  :判定为 NOT_INJECTED（干净运行）;
+  stop
+else (是)
+endif
+if (注入点之后存在同工具的成功调用?) then (是)
+  :判定为 LEVEL_1（重试成功）;
+  stop
+else (否)
+endif
+if (存在降级证据\n（受限文案或跳过节点）?) then (是)
+  :判定为 LEVEL_2（降级运行）;
+  stop
+else (否)
+endif
+:判定为 SUSPECT_FABRICATION（疑似编造）;
+stop
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam ArrowColor #2F3A45
+skinparam SequenceBorderColor #2F3A45
+skinparam SequenceLifeLineBorderColor #999999
+skinparam ParticipantBackgroundColor #F8FAFC
+title 图 6-1 被测对象适配层评测执行时序图
+
+actor "评测执行引擎" as Engine
+participant "被测对象适配层" as Adapter
+participant "被测智能体系统" as Target
+database "评测数据库" as DB
+
+Engine -> Adapter : 提交单用例执行请求
+Adapter -> Target : 登录认证（凭据互斥获取）
+Target --> Adapter : 访问令牌
+Adapter -> Target : 创建评测任务
+Target --> Adapter : 任务标识
+Adapter -> Target : 发起会话并订阅事件流
+
+loop 逐事件采集
+  Target --> Adapter : 节点步骤 / 工具调用 / 流式输出
+  Adapter -> Adapter : 解析为轨迹步骤\n（识别注入标记）
+end
+
+opt 审批挂起恢复
+  Adapter -> Target : 自动提交审批通过并恢复执行
+end
+
+Target --> Adapter : 业务产出与结束事件
+Adapter --> Engine : 返回执行轨迹
+Engine -> DB : 判定结果落库
+@enduml

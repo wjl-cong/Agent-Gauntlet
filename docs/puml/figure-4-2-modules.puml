@@ -1,0 +1,29 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam ArrowColor #2F3A45
+title 图 4-2 功能模块结构图
+
+rectangle "红队评测平台" {
+  rectangle "评测会话模块" as M1
+  rectangle "评测任务模块" as M2
+  rectangle "执行调度模块" as M3
+  rectangle "故障注入模块" as M4
+  rectangle "攻击载荷模块" as M5
+  rectangle "判定统计模块" as M6
+  rectangle "数据管理模块" as M7
+  rectangle "被测适配模块" as M8
+  rectangle "接口覆盖分析模块" as M9
+}
+
+M1 --> M3
+M2 --> M3
+M3 --> M4
+M3 --> M5
+M3 --> M6
+M3 --> M8
+M6 --> M7
+M9 --> M2
+@enduml

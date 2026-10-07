@@ -1,0 +1,33 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam ArrowColor #2F3A45
+left to right direction
+title 图 3-1 评测平台用例图
+
+actor "评测管理员" as Admin
+actor "被测智能体系统" as Target
+
+rectangle "红队评测平台" {
+  usecase "会话式评测规划" as UC1
+  usecase "评测任务执行" as UC2
+  usecase "故障注入评测" as UC3
+  usecase "对抗攻击评测" as UC4
+  usecase "评测历史查询" as UC5
+  usecase "接口覆盖分析" as UC6
+  usecase "评测痕迹清理" as UC7
+}
+
+Admin --> UC1
+Admin --> UC2
+Admin --> UC5
+Admin --> UC6
+Admin --> UC7
+UC2 <.. UC3 : <<extend>>
+UC2 <.. UC4 : <<extend>>
+UC2 --> Target
+UC3 --> Target
+UC4 --> Target
+@enduml

@@ -1,0 +1,57 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam ArrowColor #2F3A45
+title 图 4-1 系统总体架构图
+
+package "展示层" {
+  [评测会话页] as FE1
+  [测试中心页] as FE2
+  [测试历史页] as FE3
+  [接口规划页] as FE4
+}
+
+package "平台服务层" {
+  [评测展示服务] as API
+  [四阶段评测智能体] as AG
+}
+
+package "评测执行层" {
+  [评测执行引擎] as EXE
+  [故障注入引擎] as CHAOS
+  [攻击载荷库] as PAY
+  [蜜罐管理组件] as HP
+}
+
+package "判定层" {
+  [恢复判定器] as J1
+  [越界判定器] as J2
+}
+
+package "适配层" {
+  [被测对象适配层] as AD
+}
+
+database "评测数据库\n(独立数据模式)" as DB
+cloud "大模型服务" as LLM
+node "被测智能体系统" as TS
+
+FE1 --> API
+FE2 --> API
+FE3 --> API
+FE4 --> API
+API --> AG
+AG --> EXE
+EXE --> CHAOS
+CHAOS --> PAY
+PAY --> HP
+EXE --> J1
+EXE --> J2
+EXE --> AD
+AD --> TS
+AG ..> LLM : 意图分析与结论生成
+TS ..> LLM : 业务推理调用
+EXE --> DB
+@enduml

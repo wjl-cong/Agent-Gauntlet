@@ -1,0 +1,41 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam ArrowColor #2F3A45
+title 图 4-3 评测数据库 E-R 图
+
+entity "评测轮次" as runs {
+  * run_id : 主键
+  --
+  label : 轮次标识
+  summary : 汇总统计（判定分布与得分）
+  created_at : 创建时间
+}
+
+entity "用例结果" as cases {
+  * run_id + case_id : 联合主键
+  --
+  result : 轨迹、判定与成本明细
+}
+
+entity "轮次事件" as events {
+  * event_id : 主键
+  --
+  run_id : 外键
+  event_type : 事件类型
+  payload : 事件内容
+}
+
+entity "评测报告" as reports {
+  * report_id : 主键
+  --
+  run_id : 关联轮次
+  content : 报告内容
+}
+
+runs ||--o{ cases
+runs ||--o{ events
+runs ||--o{ reports
+@enduml

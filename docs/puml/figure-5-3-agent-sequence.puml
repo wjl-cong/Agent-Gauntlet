@@ -1,0 +1,36 @@
+@startuml
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam ArrowColor #2F3A45
+title 图 5-3 四阶段评测智能体时序图
+
+actor "评测管理员" as User
+participant "评测会话页" as FE
+participant "评测展示服务" as API
+participant "评测智能体" as AG
+participant "任务注册中心" as REG
+participant "评测执行引擎" as EXE
+participant "被测对象适配层" as AD
+participant "大模型服务" as LLM
+
+User -> FE : 输入自然语言评测请求
+FE -> API : 发起会话请求
+API -> AG : 启动评测会话
+AG -> LLM : 意图分析（流式）
+LLM --> AG : 分析文本与任务建议
+AG -> REG : 解析规划结果\n（哨兵解析与关键词兜底）
+REG --> AG : 目标任务列表
+loop 逐任务执行
+  AG -> EXE : 复用执行链路
+  EXE -> AD : 用例执行与事件采集
+  AD --> EXE : 执行轨迹
+  EXE --> AG : 逐用例评测结果
+  AG --> FE : 执行过程帧推送
+end
+AG -> LLM : 汇总执行上下文\n结论生成（流式）
+LLM --> AG : 评测结论
+AG --> FE : 结论帧与结束哨兵
+FE --> User : 评测结论呈现
+@enduml

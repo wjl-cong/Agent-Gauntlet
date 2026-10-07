@@ -1,0 +1,26 @@
+# W1 功能用例集（spec 4.1 恢复评测载体）—— 覆盖焰哨主链各节点能力
+# 恢复判定由 chaos.recovery 依据故障策略注入证据执行；resume_policy 默认 auto
+- id: w1-f-001
+  input: 查询昆明市2025年1月的历史火点情况
+  kind: functional
+- id: w1-f-002
+  input: 大理市2026年3月的火险等级预测如何
+  kind: functional
+- id: w1-f-003
+  input: 分析近期云南火点数据并识别高风险区域
+  kind: functional
+- id: w1-f-004
+  input: 森林防火对野外用火有哪些规范要求
+  kind: functional
+- id: w1-f-005
+  input: 丽江市2026年2月火险预测与防范建议
+  kind: functional
+- id: w1-f-006
+  input: 查询怒江州2024年8月历史火点并生成分析报告
+  kind: functional
+- id: w1-f-007
+  input: 今天昆明的天气对森林火险有什么影响
+  kind: functional
+- id: w1-f-008
+  input: 总结楚雄州近期火情态势
+  kind: functional

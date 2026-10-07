@@ -1,0 +1,202 @@
+// AgentGauntlet 全局主题 — 冷色金属光泽 / 磨砂玻璃质感 / 深邃数字化氛围
+:root {
+    --g-bg: #0a0e17;
+    --g-bg-soft: #0d1322;
+    --g-panel: rgba(255, 255, 255, 0.04);
+    --g-panel-strong: rgba(255, 255, 255, 0.07);
+    --g-border: rgba(148, 178, 220, 0.14);
+    --g-border-glow: rgba(56, 242, 216, 0.35);
+    --g-text: #e6edf7;
+    --g-text-dim: #8b98ad;
+    --g-accent: #38f2d8;
+    --g-accent-2: #3b82f6;
+    --g-danger: #f56c6c;
+    --g-warn: #e6a23c;
+    --g-ok: #67c23a;
+    --g-radius: 14px;
+    --g-blur: blur(18px) saturate(140%);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+    color: var(--g-text);
+    background: radial-gradient(1100px 500px at 85% -10%, rgba(59, 130, 246, 0.14), transparent 60%), radial-gradient(900px 480px at -10% 110%, rgba(56, 242, 216, 0.1), transparent 60%), var(--g-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* 磨砂玻璃面板 */
+
+.glass-panel {
+    background: var(--g-panel);
+    border: 1px solid var(--g-border);
+    border-radius: var(--g-radius);
+    backdrop-filter: var(--g-blur);
+    -webkit-backdrop-filter: var(--g-blur);
+    box-shadow: 0 8px 32px rgba(2, 6, 16, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+
+/* 金属渐变标题字 */
+
+.metal-text {
+    background: linear-gradient(120deg, #e6edf7 10%, #9fd8ff 45%, #38f2d8 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.06em;
+}
+
+
+/* 发光细线 */
+
+.glow-line {
+    height: 1px;
+    border: none;
+    background: linear-gradient( 90deg, transparent, var(--g-border-glow) 30%, rgba(59, 130, 246, 0.35) 70%, transparent);
+}
+
+
+/* Element Plus 深色适配（报告展示页范围，够用即可） */
+
+.el-button {
+    --el-button-bg-color: transparent;
+}
+
+.el-empty {
+    --el-empty-fill-color-0: var(--g-bg-soft);
+    --el-empty-text-color: var(--g-text-dim);
+}
+
+.el-table {
+    --el-table-bg-color: transparent;
+    --el-table-tr-bg-color: transparent;
+    --el-table-header-bg-color: var(--g-panel-strong);
+    --el-table-border-color: var(--g-border);
+    --el-table-text-color: var(--g-text);
+    --el-table-header-text-color: var(--g-text-dim);
+}
+
+
+/* markdown 渲染容器（v-html 内容，全局样式才能命中子元素） */
+
+.md-body {
+    white-space: normal;
+    word-break: break-word;
+}
+
+.md-body h1,
+.md-body h2,
+.md-body h3,
+.md-body h4,
+.md-body h5 {
+    margin: 14px 0 8px;
+    line-height: 1.5;
+    color: var(--g-text);
+}
+
+.md-body h1 {
+    font-size: 18px;
+}
+
+.md-body h2 {
+    font-size: 16.5px;
+}
+
+.md-body h3 {
+    font-size: 15px;
+}
+
+.md-body h4 {
+    font-size: 14px;
+}
+
+.md-body p {
+    margin: 6px 0;
+}
+
+.md-body ul,
+.md-body ol {
+    margin: 6px 0;
+    padding-left: 22px;
+}
+
+.md-body li {
+    margin: 3px 0;
+}
+
+.md-body code {
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    font-size: 12px;
+    background: rgba(56, 242, 216, 0.08);
+    border: 1px solid var(--g-border);
+    border-radius: 4px;
+    padding: 1px 5px;
+}
+
+.md-body pre {
+    background: rgba(2, 6, 16, 0.6);
+    border: 1px solid var(--g-border);
+    border-radius: 8px;
+    padding: 12px;
+    overflow-x: auto;
+}
+
+.md-body pre code {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.md-body table {
+    border-collapse: collapse;
+    margin: 10px 0;
+    width: 100%;
+    font-size: 12.5px;
+    display: block;
+    overflow-x: auto;
+}
+
+.md-body th,
+.md-body td {
+    border: 1px solid var(--g-border);
+    padding: 6px 10px;
+    text-align: left;
+}
+
+.md-body th {
+    background: var(--g-panel-strong);
+}
+
+.md-body blockquote {
+    margin: 8px 0;
+    padding: 6px 12px;
+    border-left: 3px solid var(--g-border-glow);
+    color: var(--g-text-dim);
+    background: rgba(56, 242, 216, 0.04);
+}
+
+.md-body hr {
+    border: none;
+    border-top: 1px solid var(--g-border);
+    margin: 12px 0;
+}
+
+.md-body a {
+    color: var(--g-accent);
+}
+
+.md-body strong {
+    color: var(--g-text);
+}
